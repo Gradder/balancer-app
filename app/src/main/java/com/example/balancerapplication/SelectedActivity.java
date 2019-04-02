@@ -2,6 +2,7 @@ package com.example.balancerapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,17 @@ public class SelectedActivity extends AppCompatActivity {
         LinearLayout modifiersLayout = findViewById(R.id.modifiers_layout);
         LinearLayout environmentsLayout = findViewById(R.id.environments_layout);
 
+        // Вывод сообщения при пустом списке
+        if(selectedUnits.isEmpty()){
+            unitsLayout.addView(createEmptyListTextView("No units selected"));
+        }
+        if(selectedModifiers.isEmpty()){
+            modifiersLayout.addView(createEmptyListTextView("No modifiers selected"));
+        }
+        if(selectedEnvironments.isEmpty()){
+            environmentsLayout.addView(createEmptyListTextView("No environments selected"));
+        }
+
         // Вывод на экран всех выбранных юнитов
         for(String unit : selectedUnits){
             TextView tv = new TextView(this);
@@ -53,11 +65,23 @@ public class SelectedActivity extends AppCompatActivity {
         }
     }
 
-    private void setTextViewProperties(TextView cb){
-        cb.setLayoutParams(new LinearLayout.LayoutParams(
+    private void setTextViewProperties(TextView tv){
+        tv.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-        cb.setTextSize(18);
-        cb.setPadding(10,10,10,10);
+        tv.setTextSize(18);
+        tv.setPadding(12,12,12,12);
+    }
+
+    private TextView createEmptyListTextView(String text){
+        TextView textView = new TextView(this);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        textView.setTextSize(18);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textView.setPadding(10,10,10,10);
+        textView.setText(text);
+        return textView;
     }
 }

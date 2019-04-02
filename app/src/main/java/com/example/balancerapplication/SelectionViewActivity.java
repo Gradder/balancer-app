@@ -3,10 +3,12 @@ package com.example.balancerapplication;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,27 +31,53 @@ public class SelectionViewActivity extends AppCompatActivity {
 
         // Временные значения для проверки
         units.add("unit 1");
-        units.add("unit 2assf");
-        units.add("unit 3 AsdDAHJKSD");
+        units.add("unit 2");
+        units.add("unit 3");
         units.add("unit 4 :D");
+        units.add("unit 5 :D");
+        units.add("unit 6 :D");
+        units.add("unit 7 :D");
+        units.add("unit 8 :D");
+        units.add("unit 9 :D");
 
         modifiers.add("modifier 1");
         modifiers.add("modifier 2");
         modifiers.add("modifier 3");
+        modifiers.add("modifier 4");
+        modifiers.add("modifier 5");
+        modifiers.add("modifier 6");
 
         environments.add("environment 1");
         environments.add("environment 2");
+        environments.add("environment 3");
 
         LinearLayout unitsLayout = findViewById(R.id.units_layout);
         LinearLayout modifiersLayout = findViewById(R.id.modifiers_layout);
         LinearLayout environmentsLayout = findViewById(R.id.environments_layout);
 
+        // Вывод сообщения при пустом списке
+        if(units.isEmpty()){
+            unitsLayout.addView(createEmptyListTextView("No units available"));
+        }
+        if(modifiers.isEmpty()){
+            modifiersLayout.addView(createEmptyListTextView("No modifiers available"));
+        }
+        if(environments.isEmpty()){
+            environmentsLayout.addView(createEmptyListTextView("No environments available"));
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        View cbPanel;
+        CheckBox cb;
+        TextView textViewName;
+
         // Вывод на экран всех юнитов
         for(String unit : units){
-            CheckBox cb = new CheckBox(this);
-            setCheckBoxProperties(cb);
-            cb.setText(unit);
-            cb.setTag(unit); // присваиваем соответствующий элемент списка как tag
+            cbPanel = inflater.inflate(R.layout.text_cb_panel, null);
+            textViewName = cbPanel.findViewById(R.id.name);
+            textViewName.setText(unit);
+            cb = cbPanel.findViewById(R.id.checkBox);
+            cb.setTag(unit);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -61,15 +89,16 @@ public class SelectionViewActivity extends AppCompatActivity {
                     }
                 }
             });
-            unitsLayout.addView(cb);
+            unitsLayout.addView(cbPanel);
         }
 
         // Вывод на экран всех модификаторов
         for(String modifier : modifiers){
-            CheckBox cb = new CheckBox(this);
-            setCheckBoxProperties(cb);
-            cb.setText(modifier);
-            cb.setTag(modifier); // присваиваем соответствующий элемент списка как tag
+            cbPanel = inflater.inflate(R.layout.text_cb_panel, null);
+            textViewName = cbPanel.findViewById(R.id.name);
+            textViewName.setText(modifier);
+            cb = cbPanel.findViewById(R.id.checkBox);
+            cb.setTag(modifier);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,15 +110,16 @@ public class SelectionViewActivity extends AppCompatActivity {
                     }
                 }
             });
-            modifiersLayout.addView(cb);
+            modifiersLayout.addView(cbPanel);
         }
 
         // Вывод на экран всех окружений
-        for(String enviroment : environments){
-            CheckBox cb = new CheckBox(this);
-            setCheckBoxProperties(cb);
-            cb.setText(enviroment);
-            cb.setTag(enviroment); // присваиваем соответствующий элемент списка как tag
+        for(String environment : environments){
+            cbPanel = inflater.inflate(R.layout.text_cb_panel, null);
+            textViewName = cbPanel.findViewById(R.id.name);
+            textViewName.setText(environment);
+            cb = cbPanel.findViewById(R.id.checkBox);
+            cb.setTag(environment);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -101,17 +131,20 @@ public class SelectionViewActivity extends AppCompatActivity {
                     }
                 }
             });
-            environmentsLayout.addView(cb);
+            environmentsLayout.addView(cbPanel);
         }
     }
 
-    // Все свойства CheckBox кроме текста
-    private void setCheckBoxProperties(CheckBox cb){
-        cb.setLayoutParams(new LinearLayout.LayoutParams(
+    private TextView createEmptyListTextView(String text){
+        TextView textView = new TextView(this);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-        cb.setTextSize(18);
-        cb.setPadding(10,10,10,10);
+        textView.setTextSize(18);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textView.setPadding(10,10,10,10);
+        textView.setText(text);
+        return textView;
     }
 
     public void onButtonClick(View v) {
