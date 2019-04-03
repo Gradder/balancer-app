@@ -10,46 +10,42 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.balancerapplication.models.Entity;
+import com.example.balancerapplication.models.Environment;
+import com.example.balancerapplication.models.Modifier;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionViewActivity extends AppCompatActivity {
 
-    //Временно используем тип String
-    List<String> units = new ArrayList<>();
-    List<String> modifiers = new ArrayList<>();
-    List<String> environments = new ArrayList<>();
+    List<Entity> units = new ArrayList<>();
+    List<Modifier> modifiers = new ArrayList<>();
+    List<Environment> environments = new ArrayList<>();
 
-    ArrayList<String> selectedUnits = new ArrayList<>();
-    ArrayList<String> selectedModifiers = new ArrayList<>();
-    ArrayList<String> selectedEnvironments = new ArrayList<>();
+    ArrayList<Entity> selectedUnits = new ArrayList<>();
+    ArrayList<Modifier> selectedModifiers = new ArrayList<>();
+    ArrayList<Environment> selectedEnvironments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_view);
 
+        // TO DO: get lists of entities, modifiers and environments from filler
+
         // Временные значения для проверки
-        units.add("unit 1");
-        units.add("unit 2");
-        units.add("unit 3");
-        units.add("unit 4 :D");
-        units.add("unit 5 :D");
-        units.add("unit 6 :D");
-        units.add("unit 7 :D");
-        units.add("unit 8 :D");
-        units.add("unit 9 :D");
+        units.add(new Entity("unit 1"));
+        units.add(new Entity("unit 2"));
+        units.add(new Entity("unit 3"));
+        units.add(new Entity("unit 4"));
 
-        modifiers.add("modifier 1");
-        modifiers.add("modifier 2");
-        modifiers.add("modifier 3");
-        modifiers.add("modifier 4");
-        modifiers.add("modifier 5");
-        modifiers.add("modifier 6");
+        modifiers.add(new Modifier("modifier 1"));
+        modifiers.add(new Modifier("modifier 2"));
+        modifiers.add(new Modifier("modifier 3"));
 
-        environments.add("environment 1");
-        environments.add("environment 2");
-        environments.add("environment 3");
+        environments.add(new Environment("environment 1"));
+        environments.add(new Environment("environment 2"));
 
         LinearLayout unitsLayout = findViewById(R.id.units_layout);
         LinearLayout modifiersLayout = findViewById(R.id.modifiers_layout);
@@ -72,20 +68,20 @@ public class SelectionViewActivity extends AppCompatActivity {
         TextView textViewName;
 
         // Вывод на экран всех юнитов
-        for(String unit : units){
+        for(Entity unit : units){
             cbPanel = inflater.inflate(R.layout.text_cb_panel, null);
             textViewName = cbPanel.findViewById(R.id.name);
-            textViewName.setText(unit);
+            textViewName.setText(unit.getName());
             cb = cbPanel.findViewById(R.id.checkBox);
             cb.setTag(unit);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        selectedUnits.add((String)buttonView.getTag());
+                        selectedUnits.add((Entity) buttonView.getTag());
                     }
                     else {
-                        selectedUnits.remove((String)buttonView.getTag());
+                        selectedUnits.remove((Entity) buttonView.getTag());
                     }
                 }
             });
@@ -93,20 +89,20 @@ public class SelectionViewActivity extends AppCompatActivity {
         }
 
         // Вывод на экран всех модификаторов
-        for(String modifier : modifiers){
+        for(Modifier modifier : modifiers){
             cbPanel = inflater.inflate(R.layout.text_cb_panel, null);
             textViewName = cbPanel.findViewById(R.id.name);
-            textViewName.setText(modifier);
+            textViewName.setText(modifier.getName());
             cb = cbPanel.findViewById(R.id.checkBox);
             cb.setTag(modifier);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        selectedModifiers.add((String)buttonView.getTag());
+                        selectedModifiers.add((Modifier) buttonView.getTag());
                     }
                     else {
-                        selectedModifiers.remove((String)buttonView.getTag());
+                        selectedModifiers.remove((Modifier) buttonView.getTag());
                     }
                 }
             });
@@ -114,20 +110,20 @@ public class SelectionViewActivity extends AppCompatActivity {
         }
 
         // Вывод на экран всех окружений
-        for(String environment : environments){
+        for(Environment environment : environments){
             cbPanel = inflater.inflate(R.layout.text_cb_panel, null);
             textViewName = cbPanel.findViewById(R.id.name);
-            textViewName.setText(environment);
+            textViewName.setText(environment.getName());
             cb = cbPanel.findViewById(R.id.checkBox);
             cb.setTag(environment);
             cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        selectedEnvironments.add((String)buttonView.getTag());
+                        selectedEnvironments.add((Environment) buttonView.getTag());
                     }
                     else {
-                        selectedEnvironments.remove((String)buttonView.getTag());
+                        selectedEnvironments.remove((Environment) buttonView.getTag());
                     }
                 }
             });

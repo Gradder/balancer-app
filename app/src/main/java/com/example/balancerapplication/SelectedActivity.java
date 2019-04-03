@@ -6,25 +6,30 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.balancerapplication.models.Entity;
+import com.example.balancerapplication.models.Environment;
+import com.example.balancerapplication.models.Modifier;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedActivity extends AppCompatActivity {
 
-    List<String> selectedUnits = new ArrayList<>();
-    List<String> selectedModifiers = new ArrayList<>();
-    List<String> selectedEnvironments = new ArrayList<>();
+    List<Entity> selectedUnits = new ArrayList<>();
+    List<Modifier> selectedModifiers = new ArrayList<>();
+    List<Environment> selectedEnvironments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected);
 
+        // Получение данных из SelectionViewActivity
         Bundle arguments = getIntent().getExtras();
         if(arguments != null){
-            selectedUnits = (List<String>) arguments.getSerializable("selectedUnits");
-            selectedModifiers = (List<String>) arguments.getSerializable("selectedModifiers");
-            selectedEnvironments = (List<String>) arguments.getSerializable("selectedEnvironments");
+            selectedUnits = (List<Entity>) arguments.getSerializable("selectedUnits");
+            selectedModifiers = (List<Modifier>) arguments.getSerializable("selectedModifiers");
+            selectedEnvironments = (List<Environment>) arguments.getSerializable("selectedEnvironments");
         }
 
         LinearLayout unitsLayout = findViewById(R.id.units_layout);
@@ -43,24 +48,26 @@ public class SelectedActivity extends AppCompatActivity {
         }
 
         // Вывод на экран всех выбранных юнитов
-        for(String unit : selectedUnits){
+        for(Entity unit : selectedUnits){
             TextView tv = new TextView(this);
             setTextViewProperties(tv);
-            tv.setText(unit);
+            tv.setText(unit.getName());
             unitsLayout.addView(tv);
         }
 
-        for(String modifier : selectedModifiers){
+        // Вывод на экран всех выбранных модификаторов
+        for(Modifier modifier : selectedModifiers){
             TextView tv = new TextView(this);
             setTextViewProperties(tv);
-            tv.setText(modifier);
+            tv.setText(modifier.getName());
             modifiersLayout.addView(tv);
         }
 
-        for(String environment : selectedEnvironments){
+        // Вывод на экран всех выбранных окружений
+        for(Environment environment : selectedEnvironments){
             TextView tv = new TextView(this);
             setTextViewProperties(tv);
-            tv.setText(environment);
+            tv.setText(environment.getName());
             environmentsLayout.addView(tv);
         }
     }
