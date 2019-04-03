@@ -2,100 +2,74 @@ package com.example.balancerapplication.java_processing;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 import java.util.Map;
 import java.util.TreeMap;
 
 public class NodeStorage {
 
-    private Map<String,JsonNode> storage;
+    public static final NodeStorage INSTANCE=new NodeStorage();
+
+
+    private final Map<String,JsonNode> entitiesStorage;
+    private final Map<String,JsonNode> modificatorsStorage;
+    private final Map<String,JsonNode> environmentsStorage;
 
     public NodeStorage(){
-        this.storage=new TreeMap<>();// or HashMap?
+        this.entitiesStorage=new TreeMap<>();
+        this.modificatorsStorage=new TreeMap<>();
+        this.environmentsStorage=new TreeMap<>();
     }
 
-    public NodeStorage(Map<String, JsonNode> storage) {
-        this.storage = storage;
+//ENTITIES
+    public Map<String, JsonNode> getEntitiesNodes() {
+        return entitiesStorage;
     }
 
-    //TO DO: constructor with parameters String,JsonNode taking it from JsonReader
-
-
-    public Map<String, JsonNode> getStorage() {
-        return storage;
+    public  JsonNode getEntityNodeByName(String name){
+        return this.entitiesStorage.get(name);
     }
 
-    public  JsonNode getNodeByName(String name){
-        return this.storage.get(name);
+    public void addEntityNode(String name,JsonNode node){
+        this.entitiesStorage.put(name,node);
     }
 
-    public int getSize(){
-        return this.storage.size();
+    public void addEntitiesNodes (Map<String,JsonNode> newNodes){
+        this.entitiesStorage.putAll(newNodes);
     }
 
-    public boolean containsName(String name){
-        return this.storage.containsKey(name);
+    //MODIFICATORS
+    public Map<String, JsonNode> getModificatorsNodes() {
+        return modificatorsStorage;
     }
 
-    public boolean containsNode(JsonNode node){
-        return this.storage.containsValue(node);
+    public  JsonNode getModificatorNodeByName(String name){
+        return this.modificatorsStorage.get(name);
     }
 
-    public void setStorage(Map<String, JsonNode> storage) {
-        this.storage = storage;
+    public void addModificatorNode(String name,JsonNode node){
+        this.modificatorsStorage.put(name,node);
     }
 
-    public void addNewNode(String name,JsonNode node){
-        this.storage.put(name,node);
+    public void addModificatorsNodes (Map<String,JsonNode> newNodes){
+        this.modificatorsStorage.putAll(newNodes);
     }
 
-    public void addNewNodes(Map<String,JsonNode> newNodes){
-        this.storage.putAll(newNodes);
+    //ENVIRONMENTS
+    public Map<String, JsonNode> getEnvironmentsNodes() {
+        return environmentsStorage;
     }
 
-    public void deleteNodeByName(String name){
-        this.storage.remove(name);
+    public  JsonNode getEnvironmentNodeByName(String name){
+        return this.entitiesStorage.get(name);
     }
 
-    public JsonNode getJsonNodeByValue (String nameofNode,String nameOfValue){
-        return  this.storage.get(nameofNode).findValue(nameOfValue);
+    public void addEnvironmentNode(String name,JsonNode node){
+        this.environmentsStorage.put(name,node);
     }
 
-    public List<JsonNode> getNodesByFieldName(String nameOfNode, String fieldName){
-        return this.storage.get(nameOfNode).findValues(fieldName);
-    }
-
-    public List<String> getNodesAsTextByFieldName(String nameOfNode, String fieldName){
-        return this.storage.get(nameOfNode).findValuesAsText(fieldName);
-    }
-
-    public List<String> getNodeFieldNames(String nameOfNode){
-        Iterator<String> it= this.storage.get(nameOfNode).fieldNames();
-        List<String> fieldNames=new ArrayList<>();
-        while(it.hasNext()){
-            fieldNames.add(it.next());
-        }
-        return fieldNames;
-    }
-
-    public List<String> getNodeElementsToString(String nameOfNode){
-        Iterator<JsonNode> it= this.storage.get(nameOfNode).elements();
-        List<String> elementsToString=new ArrayList<>();
-        while(it.hasNext()){
-            elementsToString.add(String.valueOf(it.next()));
-        }
-        return elementsToString;
-    }
-    //TO DO: Add some other methods using
-    // https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/com/fasterxml/jackson/databind/JsonNode.html
-
-    @Override
-    public String toString() {
-        return "NodeStorage{" +
-                "storage=" + storage +
-                '}';
+    public void addEnvironmentsNodes (Map<String,JsonNode> newNodes){
+        this.environmentsStorage.putAll(newNodes);
     }
 
 }
