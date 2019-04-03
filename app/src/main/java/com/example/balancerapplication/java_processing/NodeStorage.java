@@ -15,7 +15,7 @@ public class NodeStorage {
     private final Map<String,JsonNode> modificatorsStorage;
     private final Map<String,JsonNode> environmentsStorage;
 
-    public NodeStorage(){
+    private NodeStorage(){
         this.entitiesStorage=new TreeMap<>();
         this.modificatorsStorage=new TreeMap<>();
         this.environmentsStorage=new TreeMap<>();
