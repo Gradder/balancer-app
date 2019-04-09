@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 public class Reader {
-    public static JsonNode getUnitsNode() throws IOException{
+    public static JsonNode getUnitsNode() throws Exception{
 
         //read json file data to String
         byte[] jsonData = Files.readAllBytes(Paths.get("JSON_units_library.json"));
