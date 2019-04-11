@@ -1,0 +1,7 @@
+{
+  "bad_weather" : {
+    "decreases": {
+      "ballistic_skill" : 1
+    }
+  }
+}
