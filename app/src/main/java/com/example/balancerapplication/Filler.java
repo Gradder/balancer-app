@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.Getter;
+
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,11 +13,12 @@ import java.util.TreeMap;
 
 
 
-
 public class Filler {
 
     private ObjectMapper mapper = new ObjectMapper();
 
+
+    @Getter
     public class Entity {
         private String name;
         private Map<String, Integer> body;
@@ -39,14 +42,9 @@ public class Filler {
             this.body.putAll(res);
         }
 
-        public Entity getEntity(){ return this; }
-
-        public String getEntityName() { return this.name; }
-
-        public Map<String, Integer> getEntityBody(){ return this.body; }
-
     }
 
+    @Getter
     public class Environment {
         private String name;
         private Map<String, Integer> body;
@@ -69,15 +67,9 @@ public class Filler {
             this.body.putAll(res);
         }
 
-        public Environment getEnvironment() { return this; }
-
-        public String getEnvironmentName() { return this.name; }
-
-        public Map<String, Integer> getEnvironmentBody() { return this.body; }
-
-
     }
 
+    @Getter
     public class Modifier {
         private String name;
         private Map<String, Integer> body;
@@ -100,12 +92,6 @@ public class Filler {
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
         }
-
-        public Modifier getModifier() { return this; }
-
-        public String getModifierName() { return this.name; }
-
-        public Map<String, Integer> getModifierBody(){ return this.body; }
 
     }
 
@@ -148,4 +134,6 @@ public class Filler {
         return Modifiers;
     }
 
+
 }
+
