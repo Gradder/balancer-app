@@ -10,18 +10,18 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.balancerapplication.models.Entity;
-import com.example.balancerapplication.models.Environment;
-import com.example.balancerapplication.models.Modifier;
+import com.example.balancerapplication.Filler.Entity;
+import com.example.balancerapplication.Filler.Modifier;
+import com.example.balancerapplication.Filler.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionViewActivity extends AppCompatActivity {
 
-    List<Entity> units = new ArrayList<>();
-    List<Modifier> modifiers = new ArrayList<>();
-    List<Environment> environments = new ArrayList<>();
+    List<Entity> units;
+    List<Modifier> modifiers;
+    List<Environment> environments;
 
     ArrayList<Entity> selectedUnits = new ArrayList<>();
     ArrayList<Modifier> selectedModifiers = new ArrayList<>();
@@ -32,20 +32,13 @@ public class SelectionViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_view);
 
-        // TO DO: get lists of entities, modifiers and environments from filler
+        // create Filler object
+        Filler filler = new Filler(NodeStorage.INSTANCE);
 
-        // Временные значения для проверки
-        units.add(new Entity("unit 1"));
-        units.add(new Entity("unit 2"));
-        units.add(new Entity("unit 3"));
-        units.add(new Entity("unit 4"));
-
-        modifiers.add(new Modifier("modifier 1"));
-        modifiers.add(new Modifier("modifier 2"));
-        modifiers.add(new Modifier("modifier 3"));
-
-        environments.add(new Environment("environment 1"));
-        environments.add(new Environment("environment 2"));
+        // get lists of entities, modifiers and environments from filler
+        units = filler.getEntitiesObj();
+        modifiers = filler.getModifiersObj();
+        environments = filler.getEnvironmentObj();
 
         LinearLayout unitsLayout = findViewById(R.id.units_layout);
         LinearLayout modifiersLayout = findViewById(R.id.modifiers_layout);

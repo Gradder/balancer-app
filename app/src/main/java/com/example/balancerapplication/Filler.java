@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,7 +20,7 @@ public class Filler {
 
 
     @Getter
-    public class Entity {
+    public class Entity implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -42,10 +43,13 @@ public class Filler {
             this.body.putAll(res);
         }
 
+        public String getName(){
+            return this.name;
+        }
     }
 
     @Getter
-    public class Environment {
+    public class Environment implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -67,10 +71,13 @@ public class Filler {
             this.body.putAll(res);
         }
 
+        public String getName(){
+            return this.name;
+        }
     }
 
     @Getter
-    public class Modifier {
+    public class Modifier implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -93,6 +100,9 @@ public class Filler {
             this.body.putAll(res);
         }
 
+        public String getName(){
+            return this.name;
+        }
     }
 
     private ArrayList<Entity> Entitys;
@@ -106,21 +116,24 @@ public class Filler {
     }
 
     Filler(NodeStorage nodestorage) {
+        this.Entitys = new ArrayList<>();
         for (Map.Entry<String, JsonNode> entity : nodestorage.getEntitiesNodes().entrySet()) {
             Entity e = new Entity(entity.getKey(), entity.getValue());
             this.Entitys.add(e);
         }
 
+        this.Modifiers = new ArrayList<>();
         for (Map.Entry<String, JsonNode> modifier : nodestorage.getModificatorsNodes().entrySet()) {
             Modifier m = new Modifier(modifier.getKey(), modifier.getValue());
             this.Modifiers.add(m);
         }
 
+        this.Environments = new ArrayList<>();
         for (Map.Entry<String, JsonNode> environment : nodestorage.getEnvironmentsNodes().entrySet()) {
             Environment en = new Environment(environment.getKey(), environment.getValue());
             this.Environments.add(en);
         }
-        
+
 
     }
 
