@@ -1,5 +1,6 @@
 package com.example.balancerapplication;
 
+import com.example.balancerapplication.java_processing.NodeStorage;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,19 +8,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
 
 
-public class Filler {
+public class Filler implements Serializable{
 
     private static ObjectMapper mapper = new ObjectMapper();
 
 
     @Getter
-    public static class Entity {
+    public static class Entity implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -45,7 +47,7 @@ public class Filler {
     }
 
     @Getter
-    public static class Environment {
+    public static class Environment implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -70,7 +72,7 @@ public class Filler {
     }
 
     @Getter
-    public static class Modifier {
+    public static class Modifier implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -106,16 +108,19 @@ public class Filler {
     }
 
     Filler(NodeStorage nodestorage) {
+        this.Entitys = new ArrayList<>();
         for (Map.Entry<String, JsonNode> entity : nodestorage.getEntitiesNodes().entrySet()) {
             Entity e = new Entity(entity.getKey(), entity.getValue());
             this.Entitys.add(e);
         }
 
+        this.Modifiers = new ArrayList<>();
         for (Map.Entry<String, JsonNode> modifier : nodestorage.getModificatorsNodes().entrySet()) {
             Modifier m = new Modifier(modifier.getKey(), modifier.getValue());
             this.Modifiers.add(m);
         }
 
+        this.Environments = new ArrayList<>();
         for (Map.Entry<String, JsonNode> environment : nodestorage.getEnvironmentsNodes().entrySet()) {
             Environment en = new Environment(environment.getKey(), environment.getValue());
             this.Environments.add(en);

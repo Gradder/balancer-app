@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.balancerapplication.models.Entity;
-import com.example.balancerapplication.models.Environment;
-import com.example.balancerapplication.models.Modifier;
+import com.example.balancerapplication.Filler.Entity;
+import com.example.balancerapplication.Filler.Modifier;
+import com.example.balancerapplication.Filler.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
