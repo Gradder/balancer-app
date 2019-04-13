@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Balancer Application</string>
+    <string name="units">Units:</string>
+    <string name="modifiers">Modifiers:</string>
+    <string name="environment">Environment:</string>
+    <string name="choose">Choose</string>
 </resources>
