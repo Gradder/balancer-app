@@ -1,6 +1,7 @@
 
 package com.example.balancerapplication;
 
+import com.example.balancerapplication.Filler.Entity;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Map;
@@ -22,9 +23,7 @@ public class NodeStorage {
     }
 
 //ENTITIES
-    public Map<String, JsonNode> getEntitiesNodes() {
-        return entitiesStorage;
-    }
+    public Map<String, JsonNode> getEntitiesNodes() { return entitiesStorage; }
 
     public  JsonNode getEntityNodeByName(String name){
         return this.entitiesStorage.get(name);
