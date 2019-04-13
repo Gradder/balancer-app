@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 
 
-public class Filler {
+public class Filler implements Serializable{
 
     private ObjectMapper mapper = new ObjectMapper();
 
