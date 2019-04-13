@@ -15,11 +15,11 @@ import java.util.TreeMap;
 
 public class Filler {
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper();
 
 
     @Getter
-    public class Entity {
+    public static class Entity {
         private String name;
         private Map<String, Integer> body;
 
@@ -45,7 +45,7 @@ public class Filler {
     }
 
     @Getter
-    public class Environment {
+    public static class Environment {
         private String name;
         private Map<String, Integer> body;
 
@@ -70,7 +70,7 @@ public class Filler {
     }
 
     @Getter
-    public class Modifier {
+    public static class Modifier {
         private String name;
         private Map<String, Integer> body;
 
