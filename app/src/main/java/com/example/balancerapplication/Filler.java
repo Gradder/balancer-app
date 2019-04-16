@@ -10,6 +10,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -40,6 +41,7 @@ public class Filler implements Serializable{
 
         Entity(String name, JsonNode node){
             this.name = name;
+            body = new HashMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
         }
