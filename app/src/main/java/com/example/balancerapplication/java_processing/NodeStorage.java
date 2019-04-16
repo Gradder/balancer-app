@@ -1,24 +1,36 @@
 package com.example.balancerapplication.java_processing;
 
+import android.content.Context;
+
+import com.example.balancerapplication.Reader;
 import com.fasterxml.jackson.databind.JsonNode;
 
 
+import org.w3c.dom.Node;
+
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class NodeStorage {
 
-    public static final NodeStorage INSTANCE=new NodeStorage();
 
-
+    private final Reader reader;
     private final Map<String,JsonNode> entitiesStorage;
     private final Map<String,JsonNode> modificatorsStorage;
     private final Map<String,JsonNode> environmentsStorage;
 
-    private NodeStorage(){
+    public NodeStorage(Context context){
+        this.reader = new Reader(context);
         this.entitiesStorage=new TreeMap<>();
         this.modificatorsStorage=new TreeMap<>();
         this.environmentsStorage=new TreeMap<>();
+
+        try {
+            this.entitiesStorage.put("key", reader.getNode(context, "JSON_units_library.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 //ENTITIES

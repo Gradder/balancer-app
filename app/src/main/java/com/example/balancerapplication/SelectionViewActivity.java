@@ -34,7 +34,7 @@ public class SelectionViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selection_view);
 
         // create Filler object
-        Filler filler = new Filler(NodeStorage.INSTANCE);
+        Filler filler = new Filler(new NodeStorage(SelectionViewActivity.this));
 
         // get lists of entities, modifiers and environments from filler
         units = filler.getEntitiesObj();
