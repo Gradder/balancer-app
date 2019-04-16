@@ -1,40 +1,64 @@
 package com.example.balancerapplication;
 
+import android.content.Context;
+import android.os.Environment;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Iterator;
+
 
 public class Reader {
-    public static JsonNode getUnitsNode() throws IOException{
 
-        //read json file data to String
-        byte[] jsonData = Files.readAllBytes(Paths.get("JSON_units_library.json"));
-        JsonNode jsonNode = new ObjectMapper().readTree(jsonData);
+    /*выгрузка библиотек в Internal storage. В манифесте запросили разрешение WRITE_EXTERNAL_STORAGE */
+
+    private void wrtieFileOnInternalStorage(Context context, String fileName, String textToWrite){
+        //получаем каталог, который используется только данным приложением, вызвав getExternalFilesDir()
+        //создаем новый файл директории
+        File file = new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES), fileName);
+        if(!file.exists()){
+            file.mkdir();
+        }
+
+        try{
+            FileWriter writer = new FileWriter(file);
+            writer.append(textToWrite);
+            writer.flush();
+            writer.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private String readFileOnInternalStorage(Context context, String fileName) throws IOException {
+        // получаем путь к внешнему диску
+        File sdPath = Environment.getExternalStorageDirectory();
+        // добавляем свой каталог к пути
+        sdPath = new File(sdPath.getAbsolutePath() + "/" + context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES));
+        // формируем объект File, который содержит путь к файлу
+        File sdFile = new File(sdPath, fileName);
+        // открываем поток для чтения
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(sdFile));
+        byte[] tempArray = new byte[(int) sdFile.length()];
+        bufferedInputStream.read(tempArray);
+        return tempArray.toString();
+
+    }
+
+
+    public static JsonNode getNode(String path) throws IOException{
+        // Получаем доступ к ноде
+        JsonNode jsonNode = new ObjectMapper().readTree(new File(path));
         return jsonNode;
     }
-    public static JsonNode getModifiersNode() throws IOException{
-        //read json file data to String
-        byte[] jsonData = Files.readAllBytes(Paths.get("JSON_modifiers_library.json"));
-        JsonNode jsonNode = new ObjectMapper().readTree(jsonData);
-        return jsonNode;
-    }
-    public static JsonNode getEnvironmentNode() throws IOException{
-        //read json file data to String
-        byte[] jsonData = Files.readAllBytes(Paths.get("JSON_environment_library.json"));
-        JsonNode jsonNode = new ObjectMapper().readTree(jsonData);
-        return jsonNode;
-    }
+
     //get name of entity
     public String getStringKey(JsonNode jsonNode){
-        String str = null;
-        for (Iterator<String> it = jsonNode.fieldNames(); it.hasNext(); ) {
-            String key = it.next();
-            str = key;
-        }
-        return str;
+        return jsonNode.fieldNames().toString();
     }
 }
