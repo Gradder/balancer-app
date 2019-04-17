@@ -18,11 +18,11 @@ import java.util.TreeMap;
 
 public class Filler implements Serializable{
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper();
 
 
     @Getter
-    public class Entity implements Serializable {
+    public static class Entity implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -41,18 +41,14 @@ public class Filler implements Serializable{
 
         Entity(String name, JsonNode node){
             this.name = name;
-            body = new HashMap<>();
+            body = new TreeMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
-        }
-
-        public String getName(){
-            return this.name;
         }
     }
 
     @Getter
-    public class Environment implements Serializable {
+    public static class Environment implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -70,17 +66,14 @@ public class Filler implements Serializable{
 
         Environment(String name, JsonNode node){
             this.name = name;
+            body = new TreeMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
-        }
-
-        public String getName(){
-            return this.name;
         }
     }
 
     @Getter
-    public class Modifier implements Serializable {
+    public static class Modifier implements Serializable {
         private String name;
         private Map<String, Integer> body;
 
@@ -99,12 +92,9 @@ public class Filler implements Serializable{
 
         Modifier(String name, JsonNode node){
             this.name = name;
+            body = new TreeMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
-        }
-
-        public String getName(){
-            return this.name;
         }
     }
 
