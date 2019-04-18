@@ -8,6 +8,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.TreeMap;
 
 
 public class Reader {
@@ -73,6 +78,53 @@ public class Reader {
 
     //get name of entity
     public String getStringKey(JsonNode jsonNode){
-        return jsonNode.fieldNames().toString();
+        return jsonNode.fieldNames().next();
+    }
+
+    // Берет все узлы, которые не содержат в себе других объектов или массивов
+    public Map<String, JsonNode> getEntityNodesWithNoContainersInside(JsonNode root){
+
+        Map<String, JsonNode> result = new TreeMap<>();
+        Queue<Map.Entry<String, JsonNode>> queue = new LinkedList<>();
+
+        // создание изначальной очереди
+        Iterator<Map.Entry<String, JsonNode>> iterator = root.fields();
+        while (iterator.hasNext()){
+            queue.add(iterator.next());
+        }
+
+        /* Проходя по очереди, проверяем содержимое узлов, если нет объектов-контейнеров, то
+        заносим узел в результат, иначе добавляем все найденные объекты-контейнеры в очередь*/
+        Map.Entry<String, JsonNode> node;
+        Map.Entry<String, JsonNode> nextNode;
+        boolean isEntity;
+        while (!queue.isEmpty()){
+            node = queue.poll();
+            isEntity = true;
+            iterator = node.getValue().fields();
+            while (iterator.hasNext()){
+                nextNode = iterator.next();
+                if (nextNode.getValue().isContainerNode()){
+                    isEntity = false;
+                    queue.add(nextNode);
+                }
+            }
+            if (isEntity){
+                result.put(node.getKey(), node.getValue());
+            }
+        }
+        return result;
+    }
+
+    // Берет все узлы, которые лежат непосредственно в корне
+    public Map<String, JsonNode> getAllNodesFromRoot(JsonNode root){
+        Map<String, JsonNode> result = new TreeMap<>();
+        Iterator<Map.Entry<String, JsonNode>> iterator = root.fields();
+        Map.Entry<String, JsonNode> nextNode;
+        while (iterator.hasNext()){
+            nextNode = iterator.next();
+            result.put(nextNode.getKey(), nextNode.getValue());
+        }
+        return result;
     }
 }

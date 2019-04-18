@@ -27,7 +27,14 @@ public class NodeStorage {
         this.environmentsStorage=new TreeMap<>();
 
         try {
-            this.entitiesStorage.put("key", reader.getNode(context, "JSON_units_library.json"));
+            JsonNode unitsLibrary = reader.getNode(context, "JSON_units_library.json");
+            this.entitiesStorage.putAll(reader.getEntityNodesWithNoContainersInside(unitsLibrary));
+
+            JsonNode modifiersLibrary = reader.getNode(context, "JSON_modifiers_library.json");
+            this.modificatorsStorage.putAll(reader.getAllNodesFromRoot(modifiersLibrary));
+
+            JsonNode environmentsLibrary = reader.getNode(context, "JSON_environment_library.json");
+            this.environmentsStorage.putAll(reader.getAllNodesFromRoot(environmentsLibrary));
         } catch (IOException e) {
             e.printStackTrace();
         }
