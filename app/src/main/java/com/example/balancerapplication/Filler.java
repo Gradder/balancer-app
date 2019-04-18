@@ -40,10 +40,10 @@ public class Filler implements Serializable{
 
         Entity(String name, JsonNode node){
             this.name = name;
+            body = new TreeMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
         }
-
     }
 
     @Getter
@@ -65,10 +65,10 @@ public class Filler implements Serializable{
 
         Environment(String name, JsonNode node){
             this.name = name;
+            body = new TreeMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
         }
-
     }
 
     @Getter
@@ -91,10 +91,10 @@ public class Filler implements Serializable{
 
         Modifier(String name, JsonNode node){
             this.name = name;
+            body = new TreeMap<>();
             Map<String, Integer> res = mapper.convertValue(node, Map.class);
             this.body.putAll(res);
         }
-
     }
 
     private ArrayList<Entity> Entitys;
@@ -125,7 +125,7 @@ public class Filler implements Serializable{
             Environment en = new Environment(environment.getKey(), environment.getValue());
             this.Environments.add(en);
         }
-        
+
 
     }
 

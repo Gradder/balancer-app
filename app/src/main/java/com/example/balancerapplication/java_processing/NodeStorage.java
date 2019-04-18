@@ -1,29 +1,49 @@
 package com.example.balancerapplication.java_processing;
 
-import com.example.balancerapplication.Filler.Entity;
+import android.content.Context;
+
+import com.example.balancerapplication.Reader;
 import com.fasterxml.jackson.databind.JsonNode;
 
 
+import org.w3c.dom.Node;
+
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class NodeStorage {
 
-    public static final NodeStorage INSTANCE=new NodeStorage();
 
-
+    private final Reader reader;
     private final Map<String,JsonNode> entitiesStorage;
     private final Map<String,JsonNode> modificatorsStorage;
     private final Map<String,JsonNode> environmentsStorage;
 
-    private NodeStorage(){
+    public NodeStorage(Context context){
+        this.reader = new Reader(context);
         this.entitiesStorage=new TreeMap<>();
         this.modificatorsStorage=new TreeMap<>();
         this.environmentsStorage=new TreeMap<>();
+
+        try {
+            JsonNode unitsLibrary = reader.getNode(context, "JSON_units_library.json");
+            this.entitiesStorage.putAll(reader.getEntityNodesWithNoContainersInside(unitsLibrary));
+
+            JsonNode modifiersLibrary = reader.getNode(context, "JSON_modifiers_library.json");
+            this.modificatorsStorage.putAll(reader.getAllNodesFromRoot(modifiersLibrary));
+
+            JsonNode environmentsLibrary = reader.getNode(context, "JSON_environment_library.json");
+            this.environmentsStorage.putAll(reader.getAllNodesFromRoot(environmentsLibrary));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 //ENTITIES
-    public Map<String, JsonNode> getEntitiesNodes() { return entitiesStorage; }
+    public Map<String, JsonNode> getEntitiesNodes() {
+        return entitiesStorage;
+    }
 
     public  JsonNode getEntityNodeByName(String name){
         return this.entitiesStorage.get(name);
